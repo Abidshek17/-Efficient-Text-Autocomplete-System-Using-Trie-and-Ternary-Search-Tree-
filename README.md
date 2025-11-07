@@ -23,6 +23,7 @@ It evaluates the trade-offs between **lookup speed**, **memory usage**, and **sc
 ---
 
 ## 🧩 Data Structures Used
+
 ### 🔹 Trie
 A prefix tree where each node represents a character.  
 Operations like insertion, search, and deletion run in **O(L)** time (L = word length).
@@ -33,63 +34,37 @@ each node has **three children** (`low`, `equal`, `high`) and consumes less memo
 
 ---
 
-## 🧪 Experimental Setup
-| Parameter | Description |
-|------------|-------------|
-| **Dataset** | English Dictionary (100K words) |
-| **Language** | Python 3 |
-| **Metrics** | Lookup time (ms), Memory usage (MB), Scalability |
-| **Platform** | Custom-built Trie and TST classes |
+## 💻 Implementation
 
----
+### 📄 Trie (Python)
+```python
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
 
-## 📊 Results
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
 
-| Metric | Trie | TST |
-|---------|------|-----|
-| Lookup Time (ms) | 2.1 | 2.9 |
-| Memory Usage (MB) | 12.7 | 8.9 |
-| Scalability | Good | Excellent |
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            node = node.children.setdefault(char, TrieNode())
+        node.is_end = True
 
-- **Trie** demonstrated faster lookups.  
-- **TST** consumed less memory.  
-- A **hybrid approach** can optimize both speed and space.
+    def search(self, prefix):
+        node = self.root
+        for char in prefix:
+            if char not in node.children:
+                return []
+            node = node.children[char]
+        return self._collect(node, prefix)
 
----
-
-## 🧾 Conclusion
-The developed system effectively demonstrates how **Trie** and **TST** can power real-time autocomplete features.  
-Applications like **search engines, IDEs, and chat systems** can leverage this to enhance user typing experience.
-
----
-
-## 🧑‍💻 Authors
-- **Aditya Kumar Maurya**  
-- **Sujal Gupta**  
-- **Abhishek Yadav** — *Roll No: 2025023101*  
-  *Under the guidance of* **Dr. Pradeep Singh**
-
-**Department of Computer Science and Engineering**  
-*Madan Mohan Malaviya University of Technology (MMMUT), Gorakhpur, India*
-
----
-
-## 📚 References
-1. Fredkin, E. (1960). *Trie Memory*, Communications of the ACM.  
-2. Bentley, J.L., Sedgewick, R. (1997). *Ternary Search Trees*, Dr. Dobb’s Journal.  
-3. Li, M. et al., *A Hybrid Approach to Large-Scale Autocomplete Systems*, IEEE TKDE, 2021.  
-4. Kumar, V. (2020). *Comparative Study of Trie and TST for Text Prediction*, IJCA.
-
----
-
-## 💡 Future Work
-- Integrate **hybrid Trie–TST system** dynamically based on input size.  
-- Add **weighted suggestions** based on word frequency.  
-- Build a **GUI interface** using Streamlit or Tkinter.
-
----
-
-## 🏷️ Keywords
-`Autocomplete` `Trie` `Ternary Search Tree` `Text Prediction` `Data Structures` `Algorithms`
-
----
+    def _collect(self, node, prefix):
+        words = []
+        if node.is_end:
+            words.append(prefix)
+        for char, next_node in node.children.items():
+            words += self._collect(next_node, prefix + char)
+        return words
