@@ -1,70 +1,53 @@
-# 🚀 Efficient Text Autocomplete System Using Trie and Ternary Search Tree
+# Efficient Text Autocomplete System Using Trie and Ternary Search Tree
 
-### 📘 Overview
-This project implements an **efficient text autocomplete system** using two core data structures — **Trie** and **Ternary Search Tree (TST)** — to provide fast and memory-optimized text predictions.  
-It evaluates the trade-offs between **lookup speed**, **memory usage**, and **scalability**, offering insights into how each structure performs in real-time text completion tasks.
-
----
-
-## 🧠 Objectives
-- To design and implement **Trie** and **TST-based** autocomplete algorithms.  
-- To compare their **performance** across large datasets (100K+ words).  
-- To identify an optimal **hybrid approach** balancing speed and space.
+## 📌 Overview
+Text autocomplete systems are widely used in search engines, messaging applications, and code editors to enhance typing efficiency and user experience.  
+This project implements an efficient text autocomplete system using **Trie** and **Ternary Search Tree (TST)** data structures and compares their performance in terms of lookup time, memory usage, and scalability.
 
 ---
 
-## ⚙️ Features
-✅ Real-time word suggestions after each keystroke  
-✅ Efficient **prefix-based search** using Trie  
-✅ **Memory-optimized** lookup via TST  
-✅ Comparative analysis with performance metrics  
-✅ Implemented in **Python 3** for simplicity and clarity
+## 🎯 Objectives
+- Implement autocomplete functionality using Trie and TST
+- Compare time complexity and memory usage of both approaches
+- Evaluate performance on large English dictionary datasets
+- Provide fast and accurate prefix-based word suggestions
 
 ---
 
-## 🧩 Data Structures Used
-
-### 🔹 Trie
-A prefix tree where each node represents a character.  
-Operations like insertion, search, and deletion run in **O(L)** time (L = word length).
-
-### 🔹 Ternary Search Tree (TST)
-A hybrid between a binary search tree and a trie —  
-each node has **three children** (`low`, `equal`, `high`) and consumes less memory for sparse datasets.
+## 🛠️ Technologies Used
+- **Programming Language:** Python  
+- **Data Structures:** Trie, Ternary Search Tree  
+- **Concepts:** Algorithms, Prefix Search, Recursion  
 
 ---
 
-## 💻 Implementation
+## ⚙️ System Design
+- Each character of a word is stored as a node
+- Trie provides fast prefix-based lookup
+- TST optimizes memory usage for sparse datasets
+- Autocomplete suggestions are generated after each keystroke
 
-### 📄 Trie (Python)
-```python
-class TrieNode:
-    def __init__(self):
-        self.children = {}
-        self.is_end = False
+---
 
-class Trie:
-    def __init__(self):
-        self.root = TrieNode()
+## 📊 Dataset
+- Standard English dictionary
+- Approx. **100,000+ words**
 
-    def insert(self, word):
-        node = self.root
-        for char in word:
-            node = node.children.setdefault(char, TrieNode())
-        node.is_end = True
+---
 
-    def search(self, prefix):
-        node = self.root
-        for char in prefix:
-            if char not in node.children:
-                return []
-            node = node.children[char]
-        return self._collect(node, prefix)
+## ⏱️ Time and Space Complexity
+| Operation | Trie | TST |
+|---------|------|------|
+| Insertion | O(L) | O(L) |
+| Search | O(L) | O(L) |
+| Memory Usage | Higher | Lower |
 
-    def _collect(self, node, prefix):
-        words = []
-        if node.is_end:
-            words.append(prefix)
-        for char, next_node in node.children.items():
-            words += self._collect(next_node, prefix + char)
-        return words
+(L = length of word)
+
+---
+
+## ▶️ How to Run
+```bash
+git clone https://github.com/Abidshek17/-Efficient-Text-Autocomplete-System-Using-Trie-and-Ternary-Search-Tree-
+cd -Efficient-Text-Autocomplete-System-Using-Trie-and-Ternary-Search-Tree-
+python main.py
